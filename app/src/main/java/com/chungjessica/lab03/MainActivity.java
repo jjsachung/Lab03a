@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         myEdit.putString("bottomleft", bottomLeft.getText().toString());
         myEdit.putString("bottomright", bottomRight.getText().toString());
         myEdit.apply();
+        //test
     }
 
     public void increment(View view) {
