@@ -1,12 +1,16 @@
-package com.chungjessica.lab03;
+package com.chungjessica.lab03a;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.w3c.dom.Text;
 
@@ -15,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     TextView topLeft, topRight;
     Button bottomLeft, bottomRight;
     SharedPreferences sharedPreferences;
+    SeekBar fontSize;
+    ConstraintLayout layout;
 
     SharedPreferences sh;
     @Override
@@ -33,6 +39,40 @@ public class MainActivity extends AppCompatActivity {
 
         sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
+        layout = findViewById(R.id.activity_main_layout);
+        layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear().apply();
+                topLeft.setText("0");
+                topRight.setText("0");
+                bottomLeft.setText("0");
+                bottomRight.setText("0");
+                return false;
+            }
+        });
+        fontSize = findViewById(R.id.sizeseekbar);
+        fontSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                topLeft.setTextSize(i);
+                topRight.setTextSize(i);
+                bottomLeft.setTextSize(i);
+                bottomRight.setTextSize(i);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Snackbar.make(layout, getString(R.string.snackbar_label, seekBar.getProgress()),
+                        Snackbar.LENGTH_SHORT).show();
+            }
+        });
     }
 
     protected void onResume(){
